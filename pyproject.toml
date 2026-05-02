@@ -1,0 +1,20 @@
+[project]
+name = "frlc-tutorial"
+version = "0.1.0"
+description = "Tutorial on Low-Rank OT via Factor Relaxation with Latent Coupling (FRLC)"
+authors = [
+    {name = "Votre Nom", email = "votre.email@example.com"}
+]
+dependencies = [
+    "jax>=0.4.0",
+    "jaxlib",
+    "ott-jax>=0.4.0",
+    "matplotlib",
+    "numpy",
+    "tqdm"
+]
+requires-python = ">=3.9"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
