@@ -24,9 +24,3 @@ This implementation leverages **OTT-JAX** low-level primitives to maximize perfo
 ## 📊 Results Preview
 
 The algorithm demonstrates stable convergence and achieves a lower transport cost than standard `LRSinkhorn` on complex datasets, such as the **Two Moons** to **Eight Gaussians** transfer.
-
-## 🛠 Installation & Usage
-
-To test this tutorial locally, clone the repo and install the dependencies:
-```bash
-pip install .
