@@ -1,26 +1,33 @@
-# Low-Rank Optimal Transport via FRLC (OTT-JAX Tutorial)
+# Low-Rank Optimal Transport: Factor Relaxation with Latent Coupling (FRLC)
 
-This repository contains a high-performance implementation of the **FRLC** (*Factor Relaxation with Latent Coupling*) algorithm, based on the paper by **Halmos et al. (NeurIPS 2024)**. 
+This repository contains a high-performance JAX implementation of the **FRLC** algorithm, as introduced in the NeurIPS 2024 paper: *"Low-Rank Optimal Transport through Factor Relaxation with Latent Coupling"*. 
 
-The goal of this project is to provide a pedagogical and efficient tutorial integrated into the **OTT-JAX** ecosystem.
+FRLC improves upon standard Low-Rank Optimal Transport (LOT) by relaxing constraints on inner marginals, allowing for a full latent coupling matrix that provides superior interpretability and handles asymmetric cluster distributions.
 
-## 🚀 Key Implementation Features
+---
 
-Unlike standard low-rank OT (LOT) approaches that enforce identical inner marginals ($g_Q = g_R$), **FRLC** employs a richer latent coupling factorization:
-$$P_r = Q \text{diag}(1/g_Q) T \text{diag}(1/g_R) R^\top$$
+## ✨ Key Features
 
-This implementation leverages **OTT-JAX** low-level primitives to maximize performance:
-*   **Log-Sum-Exp (LSE) Stability**: Uses `jax.nn.logsumexp` for perfect numerical stability, even at high ranks.
-*   **JAX Acceleration**: The algorithm is fully compiled via `@jax.jit` and optimized using `jax.lax.scan` for fast iterations.
-*   **Memory Efficiency**: Utilizes `geom.apply_cost` to avoid the materialization of $N \times M$ cost matrices, ensuring linear scaling.
+*   **Full Latent Coupling**: Unlike standard LOT which is restricted to a diagonal coupling, FRLC utilizes a full $r \times r$ matrix $\mathbf{T}$, enabling complex cluster-to-cluster mass splitting.
+*   **JAX Optimized**: Fully compatible with `@jax.jit`, using `jax.lax.scan` for efficient loops and linear memory scaling $O((n+m)r)$.
+*   **Numerical Stability**: Implements Sinkhorn projections in the Log-Sum-Exp (LSE) domain to prevent numerical instability at high ranks.
+*   **OTT-JAX Integration**: Built to work seamlessly with the Optimal Transport Tools ecosystem.
+
+---
 
 ## 📂 Repository Structure
 
-*   `FRLC_solver/`: Modular algorithmic core containing the solver logic.
-*   `FRLC_tutorial.ipynb`: Demonstration notebook including theory, sanity checks, and performance benchmarks.
-*   `pyproject.toml`: Dependency management (JAX, OTT-JAX, Matplotlib).
-*   `.gitignore`: Prevents unnecessary cache and checkpoint files from polluting the repo.
-
-## 📊 Results Preview
-
-The algorithm demonstrates stable convergence and achieves a lower transport cost than standard `LRSinkhorn` on complex datasets, such as the **Two Moons** to **Eight Gaussians** transfer.
+The project is organized into a modular package and interactive tutorials:
+```text
+OT_PROJECT_LOWRANK/
+├── FRLC_solver/              # Core Package
+│   ├── __init__.py           # Exposes main functions (Flattened Namespace)
+│   ├── solver.py             # FRLC Main loop (Mirror Descent)
+│   ├── initialization.py     # LR factors initialization
+│   ├── gradients_computation.py 
+│   ├── sinkhorn_projection.py # LSE-domain projections
+│   └── utils.py              # Projections and Visualization tools
+├── FRLC_demo.ipynb           # Interactive Demo & Benchmark comparison
+├── FRLC_tutorial.ipynb       # Step-by-step technical guide
+├── pyproject.toml            # Project dependencies
+└── README.md
